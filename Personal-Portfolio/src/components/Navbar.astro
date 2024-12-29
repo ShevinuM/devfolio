@@ -1,0 +1,30 @@
+---
+const pages = import.meta.glob('../pages/*.astro');
+
+const pageList = Object.keys(pages).map((path) => {
+    const name = path.split('/').pop()?.replace('.astro', '');
+    return { name, url: path.replace('../pages', '').replace('.astro', '.html')};
+});
+---
+<nav>
+    <ul id="menu">
+        {pageList.map(page => (
+            <li><a href={page.url}>{page.name}<span>.</span></a></li>
+        ))}
+    </ul>
+
+    <div id="toggle">
+          <div id="menu-btn" class="span">menu</div>
+    </div>
+
+</nav>
+
+<div id="resize">
+    <div class="close-btn">close</div>
+
+    <ul id="menu">
+        {pageList.map(page => (
+            <li><a href={page.url}>{page.name}<span>.</span></a></li>
+        ))}
+    </ul>
+</div>
