@@ -1,0 +1,51 @@
+---
+import FollowMe from '../components/FollowMe.svelte';
+const socialFiles = await Astro.glob('../content/footer-links/*.md');
+
+const linkedin = socialFiles.find(file => file.frontmatter.id === 'linkedin');
+const emailContact = socialFiles.find(file => file.frontmatter.id === 'email');
+
+const socials = socialFiles.filter(file => 
+    !['linkedin', 'email'].includes(file.frontmatter.id)
+).map(file => ({
+    id: file.frontmatter.id,
+    url: file.frontmatter.url,
+    iconClass: file.frontmatter.iconClass,
+}))
+---
+
+<footer class="row">
+    <div class="col-lg-4" id="linkedin">
+        <p>connect with me</p>
+        {linkedin && (
+            <FollowMe
+                id={linkedin.frontmatter.id}
+                url={linkedin.frontmatter.url}
+                iconClass={linkedin.frontmatter.iconClass}
+                delay={"0.2s"}
+            />
+        )}
+    </div>
+    <div class="col-lg-4" id="media">
+        <p>follow me</p>
+        {socials.map((social, index) => (
+            <FollowMe
+                id={social.id}
+                url={social.url}
+                iconClass={social.iconClass}
+                delay={`${((index + 1) * 0.1 + 0.4)}s`}
+            />
+        ))}
+    </div>
+    <div class="col-lg-4" id="email">
+        <p>contact me</p>
+        {emailContact && (
+            <FollowMe
+                id={emailContact.frontmatter.id}
+                url={emailContact.frontmatter.url}
+                iconClass={emailContact.frontmatter.iconClass}
+                delay={"0.9s"}
+            />
+        )}
+    </div>
+</footer>
